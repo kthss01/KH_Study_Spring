@@ -169,6 +169,23 @@
 		    <scope>provided</scope>
 		</dependency>
 		
+		<!-- 2. 스프링 시큐리티 모듈 추가하는 라이브러리 (core, web, config) -->
+        <!--    스프링이랑 버전을 맞추는게 좋긴한데 5버전대로 받으면 충돌이나 톰캣이 뱉어내는 경우 간혹 발생 -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-core</artifactId>
+		    <version>${org.springframework-version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-web</artifactId>
+		    <version>${org.springframework-version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-config</artifactId>
+		    <version>${org.springframework-version}</version>
+		</dependency>
 		  
 	</dependencies>
     <build>
