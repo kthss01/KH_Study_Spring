@@ -20,12 +20,22 @@
   	</bean> 
     
     <!-- destroy-method="close" 세션을 자동으로 close 하겠다는 얘기 -->	  
-   	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+   	<bean id="realDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 	  	<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
 		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
 		<property name="username" value="spring"/>
 		<property name="password" value="spring"/>
 		<property name="defaultAutoCommit" value="false"/> 
   	</bean>
+	
+	<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+		<constructor-arg ref="realDataSource"/>
+		<property name="logFormatter">
+			<bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+				<property name="loggingType" value="MULTI_LINE"/>
+				<property name="sqlPrefix" value="[SQL] "/>
+			</bean>
+		</property>
+	</bean>
 	
 </beans>
