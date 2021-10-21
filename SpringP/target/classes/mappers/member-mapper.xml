@@ -44,4 +44,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		STATUS = 'N'
 		WHERE user_ID = #{userId}
 	</update>
+	
+	<update id="updatePwd" parameterType="Member">
+		update member set
+		user_PWD = #{userPwd}
+		WHERE user_ID = #{userId}
+	</update>
 </mapper>

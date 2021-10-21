@@ -17,7 +17,7 @@ import com.kh.spring.member.model.service.MemberServiceImpl2;
 import com.kh.spring.member.model.vo.Member;
 
 // Model에 loginUser라는 키값으로 객체가 추가되면 자동으로 session에 추가해주는 annotation
-@SessionAttributes("loginUser") 
+@SessionAttributes({ "loginUser", "msg" }) 
 @Controller
 public class MemberController {
 
@@ -290,6 +290,8 @@ public class MemberController {
 		
 		model.addAttribute("loginUser", userInfo);
 		
+		session.setAttribute("msg", "회원정보 수정 성공");
+		
 		return "member/myPage";
 	}
 	
@@ -299,5 +301,23 @@ public class MemberController {
 		memberService.deleteMember(userId);
 		
 		return "redirect:/logout.me";
+	}
+	
+	@RequestMapping("updatePwd.me")
+	public String updatePwd(
+			@ModelAttribute("loginUser") Member loginUser,
+			@RequestParam("curPwd") String curPwd,
+			@RequestParam("newPwd") String newPwd,
+			Model model) {
+		
+//		System.out.println(loginUser);
+		
+		Member userInfo = memberService.updatePwd(bCryptPasswordEncoder, loginUser, curPwd, newPwd);
+		
+		model.addAttribute("loginUser", userInfo);
+//		
+		model.addAttribute("msg", "비밀번호 변경 성공");
+		
+		return "member/myPage";
 	}
 }

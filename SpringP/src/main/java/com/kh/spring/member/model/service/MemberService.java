@@ -16,4 +16,6 @@ public interface MemberService {
 
 	void deleteMember(String userId);
 
+	Member updatePwd(BCryptPasswordEncoder bCryptPasswordEncoder, Member loginUser, String curPwd, String newPwd);
+
 }

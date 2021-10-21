@@ -97,6 +97,7 @@
                 <div class="btns" align="center">
                     <button type="submit" class="btn btn-primary">수정하기</button>
                     <%-- <a href="delete.me?userId=${ loginUser.userId }" class="btn btn-danger">탈퇴하기</a> --%>
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#updatePwdModal">비밀번호 변경</button>
                     <button type="button" onclick="$('#postForm').submit();" class="btn btn-danger">탈퇴하기</button>
                 </div>
             </form>
@@ -108,6 +109,62 @@
     <form action="delete.me" method="post" id="postForm">
     	<input type="hidden" name="userId" value="${ loginUser.userId }">
     </form>
+    
+   <!-- 로그인 클릭 시 뜨는 모달  -->
+    <div class="modal fade" id="updatePwdModal">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">비밀번호 변경</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button> 
+            </div>
+
+            <form action="updatePwd.me" method="post" onsubmit="return fnCheckPwd();">
+                <!-- Modal Body -->
+                <div class="modal-body">               
+                    <label for="curPwd" class="mr-sm-2">현재 비밀번호:</label>
+                    <input type="password" class="form-control mb-2 mr-sm-2" placeholder="Enter password" id="curPwd" name="curPwd">
+                    
+                    <label for="newPwd" class="mr-sm-2">변경할 비밀번호:</label>
+                    <input type="password" class="form-control mb-2 mr-sm-2" placeholder="Enter password" id="newPwd" name="newPwd">
+                    
+                    <label for="checkPwd" class="mr-sm-2">변경할 비밀번호 확인:</label>
+                    <input type="password" class="form-control mb-2 mr-sm-2" placeholder="Enter password" id="checkPwd" name="checkPwd">
+                </div>
+                
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">비밀번호 변경</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+    	const fnCheckPwd = () => {
+	    	const userPwd = $("input[name='curPwd']");
+	    	const newPwd = $("input[name='newPwd']");
+	    	const checkPwd = $("input[name='checkPwd']");
+	    	
+	    	// Pwd 비어있는지 체크
+	    	if (userPwd.val().trim() === "" || newPwd.val().trim() === "" || checkPwd.val().trim() === "") {
+	    		alert("비밀번호를 입력하세요");
+	    		return false;
+	    	}
+	    	// 새 비밀번호 같은지 체크
+	    	if (newPwd.val() !== checkPwd.val()) {
+	    		alert("비밀번호가 다릅니다");
+	    		checkPwd.val('');
+	    		checkPwd.focus();
+	    		return false;
+	    	}
+	    	
+	    	return true;
+    	}
+    </script>
 
     <jsp:include page="../common/footer.jsp"/>
 </body>

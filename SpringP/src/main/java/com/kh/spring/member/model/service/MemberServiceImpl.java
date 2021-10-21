@@ -88,4 +88,27 @@ public class MemberServiceImpl implements MemberService {
 		
 	}
 
+	@Override
+	public Member updatePwd(BCryptPasswordEncoder bCryptPasswordEncoder, Member m, String curPwd, String newPwd) {
+		
+		Member loginUser = memberDao.loginMember(sqlSession, m);
+		
+		// matches(평문, 암호문) 이렇게 넣어야함
+		if (!bCryptPasswordEncoder.matches(curPwd, loginUser.getUserPwd())) {
+			throw new CommException("비밀번호 불일치");
+		} 
+		
+		String encPwd = bCryptPasswordEncoder.encode(newPwd);
+		loginUser.setUserPwd(encPwd);
+		
+		int result = memberDao.updatePwd(sqlSession, loginUser);
+		
+		if (result > 0) {
+			Member updateUser = memberDao.loginMember(sqlSession, m);
+			return updateUser;
+		} else {
+			throw new CommException("비밀번호 변경 실패");
+		}
+	}
+
 }
